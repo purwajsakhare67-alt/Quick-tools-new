@@ -1,0 +1,6 @@
+{
+  "name": "QuickFree Tools",
+  "description": "Worldwide premium utilities & financial micro-tools platform featuring universal multi-currency support (USD, EUR, GBP, INR), toggleable subtle Web Audio tactile feedback, globalized tax & net salary calculators, guided step-by-step onboarding tour, 3-way theme state cycle (Light, Dark, Eye-Safe Reading Mode), and 100% client-side privacy.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
