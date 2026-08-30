@@ -98,7 +98,7 @@ export const Sitemap: React.FC<SitemapProps> = ({ isOpen, onClose, onSelectTool 
                   Official XML Sitemap & Directory
                 </h3>
                 <span className="text-[11px] font-mono font-bold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded-full">
-                  SPA Canonical (https://vercel.app)
+                  SPA Canonical (https://quickfree-tools.vercel.app)
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-white/60">

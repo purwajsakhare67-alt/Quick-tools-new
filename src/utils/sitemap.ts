@@ -7,7 +7,7 @@ export interface SitemapUrlEntry {
   category?: string;
 }
 
-export function generateSitemapEntries(baseUrl = 'https://vercel.app'): SitemapUrlEntry[] {
+export function generateSitemapEntries(baseUrl = 'https://quickfree-tools.vercel.app'): SitemapUrlEntry[] {
   const today = new Date().toISOString().split('T')[0];
 
   // Official Single-Page Application (SPA) Canonical URL
@@ -24,7 +24,7 @@ export function generateSitemapEntries(baseUrl = 'https://vercel.app'): SitemapU
   ];
 }
 
-export function generateXmlSitemap(baseUrl = 'https://vercel.app'): string {
+export function generateXmlSitemap(baseUrl = 'https://quickfree-tools.vercel.app'): string {
   const entries = generateSitemapEntries(baseUrl);
 
   const xmlUrls = entries.map(entry => `  <url>

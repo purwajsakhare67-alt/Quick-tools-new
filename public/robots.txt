@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://vercel.app/sitemap.xml
+Sitemap: https://quickfree-tools.vercel.app/sitemap.xml
