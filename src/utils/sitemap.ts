@@ -39,7 +39,6 @@ export function generateXmlSitemap(baseUrl = 'https://vercel.app'): string {
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-  <!-- QuickFree Tools - Single-Page Application (SPA) Root -->
 ${xmlUrls}
 </urlset>`;
 }

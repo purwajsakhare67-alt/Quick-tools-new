@@ -76,8 +76,7 @@ export function generateDynamicSitemapXml(options?: SitemapGeneratorOptions): st
   const xmlUrls = entries
     .map(entry => {
       const escapedLoc = escapeXml(entry.loc);
-      const comment = entry.name ? `  <!-- ${escapeXml(entry.name)} -->\n` : '';
-      return `${comment}  <url>\n` +
+      return `  <url>\n` +
         `    <loc>${escapedLoc}</loc>\n` +
         `    <lastmod>${entry.lastmod}</lastmod>\n` +
         `    <changefreq>${entry.changefreq}</changefreq>\n` +
