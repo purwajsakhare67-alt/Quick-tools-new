@@ -68,18 +68,14 @@ export function generateDynamicSitemapXml(options?: SitemapGeneratorOptions): st
   const entries = getSitemapUrlEntries(options);
 
   const xmlHeader = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
-    '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n' +
-    '        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n' +
-    '        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n';
+    '<urlset xmlns="http://sitemaps.org">\n';
 
   const xmlUrls = entries
     .map(entry => {
       const escapedLoc = escapeXml(entry.loc);
       return `  <url>\n` +
         `    <loc>${escapedLoc}</loc>\n` +
-        `    <lastmod>${entry.lastmod}</lastmod>\n` +
-        `    <changefreq>${entry.changefreq}</changefreq>\n` +
+        `<changefreq>${entry.changefreq}</changefreq>\n` +
         `    <priority>${entry.priority}</priority>\n` +
         `  </url>`;
     })

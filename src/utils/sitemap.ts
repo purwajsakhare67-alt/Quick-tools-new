@@ -29,16 +29,12 @@ export function generateXmlSitemap(baseUrl = 'https://quickfree-tools.vercel.app
 
   const xmlUrls = entries.map(entry => `  <url>
     <loc>${entry.loc}</loc>
-    <lastmod>${entry.lastmod}</lastmod>
     <changefreq>${entry.changefreq}</changefreq>
     <priority>${entry.priority}</priority>
   </url>`).join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://sitemaps.org">
 ${xmlUrls}
 </urlset>`;
 }
