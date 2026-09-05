@@ -181,19 +181,11 @@ export const InteractiveToolModal: React.FC<InteractiveToolModalProps> = ({
 }) => {
   const modalContainerRef = useRef<HTMLDivElement>(null);
 
-  // Viewport & Scroll Reset: Ensure whenever a tool view opens or mounts, trigger an immediate scroll reset
+  // Scroll reset inside the modal container ONLY:
+  // Ensures the tool card itself starts scrolled to its own top without resetting the background page window position
   useEffect(() => {
-    if (tool) {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      if (document.documentElement) {
-        document.documentElement.scrollTop = 0;
-      }
-      if (document.body) {
-        document.body.scrollTop = 0;
-      }
-      if (modalContainerRef.current) {
-        modalContainerRef.current.scrollTop = 0;
-      }
+    if (tool && modalContainerRef.current) {
+      modalContainerRef.current.scrollTop = 0;
     }
   }, [tool]);
 

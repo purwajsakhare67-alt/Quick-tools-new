@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { ThemeMode, ToolItem, MasterNodeId, ResearchDataResult } from './types';
 import { TOOLS_DATA } from './data/toolsData';
 import { MASTER_NODES } from './data/masterNodes';
@@ -66,18 +66,31 @@ export default function App() {
   const [activeResearch, setActiveResearch] = useState<ResearchDataResult | null>(null);
   const [researchModalOpen, setResearchModalOpen] = useState(false);
 
+  // Track scroll position before opening a tool so closing returns directly to where user was
+  const savedScrollPositionRef = useRef<number>(0);
+
   // Helper to open a tool with tactile sound feedback
   const handleLaunchTool = (tool: ToolItem) => {
     playSound('toolSelect');
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Save current window scroll position before opening tool modal
+    const currentY = window.scrollY || window.pageYOffset || document.documentElement?.scrollTop || document.body?.scrollTop || 0;
+    savedScrollPositionRef.current = currentY;
     setActiveTool(tool);
   };
 
   // Helper to close active tool and reset URL & isolation
   const handleCloseTool = () => {
     playSound('click');
+    const returnY = savedScrollPositionRef.current;
     setActiveTool(null);
     setIsolatedToolId(null);
+    // Explicitly restore scroll position so the user stays exactly where they were
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: returnY, behavior: 'instant' });
+      setTimeout(() => {
+        window.scrollTo({ top: returnY, behavior: 'instant' });
+      }, 30);
+    });
   };
 
   // Execute research query asynchronously, inject Schema.org JSON-LD, and sync URL
@@ -180,7 +193,7 @@ export default function App() {
         setResearchModalOpen(false);
         removeDynamicSeoSchema();
         if (activeTool) {
-          setActiveTool(null);
+          handleCloseTool();
         }
       }
     };

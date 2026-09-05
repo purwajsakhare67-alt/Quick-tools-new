@@ -1270,9 +1270,11 @@ export function generateSingleFileHtmlCode(): string {
       renderToolsGrid(activeNode, e.target.value);
     });
 
+    let savedPageScrollY = 0;
+
     // 4. Interactive Tool Workbench Modal Engine
     function openToolWorkbench(tool) {
-      window.scrollTo({ top: 0, behavior: 'instant' });
+      savedPageScrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       const modal = document.getElementById('toolModal');
       if (modal) modal.scrollTop = 0;
       const body = document.getElementById('modalCardBody');
@@ -1442,6 +1444,10 @@ export function generateSingleFileHtmlCode(): string {
       if (window.location.search || window.location.hash) {
         history.replaceState(null, '', window.location.pathname);
       }
+      const targetScroll = savedPageScrollY;
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: targetScroll, behavior: 'instant' });
+      });
     }
 
     // Modal background close
