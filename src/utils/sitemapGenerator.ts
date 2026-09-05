@@ -46,7 +46,7 @@ function formatLastModDate(dateInput?: string | Date): string {
  * Standard Sitemaps XML protocol (sitemaps.org 0.9) requires indexable HTTP endpoints without fragment hash (#) identifiers.
  */
 export function getSitemapUrlEntries(options?: SitemapGeneratorOptions): SitemapUrlEntry[] {
-  const baseUrl = (options?.baseUrl || 'https://vercel.app').replace(/\/+$/, '');
+  const baseUrl = (options?.baseUrl || (typeof window !== 'undefined' && window.location.origin && window.location.origin !== 'null' ? window.location.origin : 'https://quickfree-tools.vercel.app')).replace(/\/+$/, '');
   const lastmod = formatLastModDate(options?.defaultLastMod);
 
   // Single-Page App (SPA) root canonical entry

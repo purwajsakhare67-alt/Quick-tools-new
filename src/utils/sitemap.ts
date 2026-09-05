@@ -36,7 +36,7 @@ export function escapeXml(unsafe: string): string {
 export function generateSitemapEntries(customBaseUrl?: string): SitemapUrlEntry[] {
   const origin = typeof window !== 'undefined' && window.location.origin && window.location.origin !== 'null'
     ? window.location.origin
-    : 'https://quickfreetools.com';
+    : 'https://quickfree-tools.vercel.app';
   const baseUrl = (customBaseUrl || origin).replace(/\/+$/, '');
   const today = '2026-09-05';
 
