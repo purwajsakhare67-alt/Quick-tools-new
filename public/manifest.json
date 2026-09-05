@@ -1,0 +1,68 @@
+{
+  "id": "/",
+  "name": "QuickFree Tools",
+  "short_name": "QuickFree",
+  "description": "Access 40+ free financial calculators, developer utilities, audio tools, and everyday productivity engines. 100% private, client-side compute.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0f172a",
+  "theme_color": "#8b5cf6",
+  "categories": [
+    "utilities",
+    "productivity",
+    "finance",
+    "developer",
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "SIP Calculator",
+      "short_name": "SIP Calc",
+      "description": "Systematic Investment Plan & Wealth Compounder",
+      "url": "/#tool-sip-calculator",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Developer Station",
+      "short_name": "Dev Tools",
+      "description": "JSON Formatter, RegEx, Base64 & Hash Generators",
+      "url": "/#creator-dev-station",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Analytics Suite",
+      "short_name": "Analytics",
+      "description": "BPM Delay, UTM Builder, Shannon Entropy & Citations",
+      "url": "/#analytics-marketing-suite",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -13,7 +13,11 @@ type SoundType =
   | 'success' 
   | 'toggle' 
   | 'sliderTick'
-  | 'reset';
+  | 'reset'
+  | 'tap'
+  | 'soft'
+  | 'error'
+  | 'bell';
 
 let audioCtx: AudioContext | null = null;
 let soundEnabled = true;
@@ -69,6 +73,7 @@ export function playSound(type: SoundType): void {
 
   try {
     switch (type) {
+      case 'tap':
       case 'click': {
         // Soft tactile micro-click (30ms)
         const osc = ctx.createOscillator();
@@ -117,6 +122,7 @@ export function playSound(type: SoundType): void {
         break;
       }
 
+      case 'bell':
       case 'calcChime': {
         // Satisfying, lush three-note harmonic chime (pentatonic triad: C6, E6, G6)
         const freqs = [1046.5, 1318.5, 1567.98]; // C6, E6, G6
@@ -219,6 +225,46 @@ export function playSound(type: SoundType): void {
 
         gain.gain.setValueAtTime(0.035, now);
         gain.gain.exponentialRampToValueAtTime(0.0005, now + 0.12);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.13);
+        break;
+      }
+
+      case 'soft': {
+        // Ultra-gentle micro-tap (20ms)
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(650, now);
+        osc.frequency.exponentialRampToValueAtTime(320, now + 0.025);
+
+        gain.gain.setValueAtTime(0.025, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.03);
+        break;
+      }
+
+      case 'error': {
+        // Subtle low dual-frequency rejection buzz
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140, now);
+        osc.frequency.exponentialRampToValueAtTime(90, now + 0.12);
+
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
 
         osc.connect(gain);
         gain.connect(ctx.destination);

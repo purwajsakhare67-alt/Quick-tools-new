@@ -30,26 +30,69 @@ import {
   Shapes, 
   Maximize2, 
   EyeOff, 
-  LayoutTemplate,
+  LayoutTemplate, 
   Scale, 
   Type, 
   Percent, 
   Calendar, 
   CreditCard, 
   Timer,
-  ChevronRight,
-  Zap,
-  Code
+  Smartphone, 
+  Table, 
+  Wand2, 
+  ChevronRight, 
+  Zap, 
+  Code, 
+  Volume2, 
+  Scissors, 
+  Link2, 
+  Globe, 
+  ListOrdered, 
+  FileJson, 
+  Activity, 
+  Replace, 
+  Database, 
+  Lock, 
+  Key, 
+  FileSpreadsheet, 
+  Network,
+  KeyRound,
+  ArrowRightLeft,
+  FileSearch,
+  ShieldAlert,
+  Cpu,
+  Hash,
+  Dice5,
+  FileCheck,
+  CheckCircle2,
+  Bookmark,
+  UserCheck,
+  HelpCircle,
+  Shuffle,
+  Eye,
+  ChevronDown,
+  Users,
+  Shield,
+  GitCompare,
+  Monitor,
+  Contrast,
+  Repeat,
+  FileCode2,
+  CalendarDays
 } from 'lucide-react';
-import { ToolItem, ToolCategory } from '../types';
+import { ToolItem, ToolCategory, MasterNodeId } from '../types';
+import { MASTER_NODES } from '../data/masterNodes';
+import { useSound } from '../context/SoundContext';
 
 interface SidebarDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   tools: ToolItem[];
   onSelectTool: (tool: ToolItem) => void;
-  onSelectCategory: (category: ToolCategory) => void;
-  currentCategory: ToolCategory;
+  onSelectCategory?: (category: ToolCategory) => void;
+  currentCategory?: ToolCategory;
+  selectedMasterNode?: MasterNodeId;
+  onSelectMasterNode?: (nodeId: MasterNodeId) => void;
 }
 
 const iconMap: Record<string, React.ElementType> = {
@@ -87,7 +130,47 @@ const iconMap: Record<string, React.ElementType> = {
   Percent,
   Calendar,
   CreditCard,
-  Timer
+  Timer,
+  Smartphone,
+  Table,
+  Wand2,
+  Code,
+  Volume2,
+  Scissors,
+  Link2,
+  Globe,
+  ListOrdered,
+  FileJson,
+  Activity,
+  Replace,
+  Database,
+  Lock,
+  Key,
+  FileSpreadsheet,
+  Network,
+  KeyRound,
+  ArrowRightLeft,
+  FileSearch,
+  ShieldAlert,
+  Cpu,
+  Hash,
+  Dice5,
+  FileCheck,
+  CheckCircle2,
+  Bookmark,
+  UserCheck,
+  HelpCircle,
+  Shuffle,
+  Eye,
+  Zap,
+  Users,
+  Shield,
+  GitCompare,
+  Monitor,
+  Contrast,
+  Repeat,
+  FileCode2,
+  CalendarDays
 };
 
 export const SidebarDrawer: React.FC<SidebarDrawerProps> = ({
@@ -95,10 +178,14 @@ export const SidebarDrawer: React.FC<SidebarDrawerProps> = ({
   onClose,
   tools,
   onSelectTool,
-  onSelectCategory,
-  currentCategory
+  onSelectMasterNode,
+  selectedMasterNode = 'finance_wealth'
 }) => {
   const [drawerSearch, setDrawerSearch] = useState('');
+  const [expandedNodes, setExpandedNodes] = useState<Record<string, boolean>>({
+    [selectedMasterNode]: true
+  });
+  const { playClick, playToolSelect } = useSound();
 
   // Close on Escape key
   useEffect(() => {
@@ -123,347 +210,195 @@ export const SidebarDrawer: React.FC<SidebarDrawerProps> = ({
     };
   }, [isOpen]);
 
-  // Categorized tool lists
-  const financialTools = useMemo(() => {
-    return tools.filter(t => t.category === 'financial');
-  }, [tools]);
+  // Expand active node when selectedMasterNode changes
+  useEffect(() => {
+    if (selectedMasterNode) {
+      setExpandedNodes(prev => ({
+        ...prev,
+        [selectedMasterNode]: true
+      }));
+    }
+  }, [selectedMasterNode]);
 
-  const devTools = useMemo(() => {
-    return tools.filter(t => t.category === 'tech_utilities');
-  }, [tools]);
+  const toggleNodeExpand = (nodeId: string) => {
+    playClick();
+    setExpandedNodes(prev => ({
+      ...prev,
+      [nodeId]: !prev[nodeId]
+    }));
+  };
 
-  const productivityTools = useMemo(() => {
-    return tools.filter(t => t.category === 'productivity_math' || t.category === 'ai_media');
-  }, [tools]);
+  // Filter tools per node
+  const getToolsForNode = (nodeId: MasterNodeId) => {
+    const nodeTools = tools.filter(t => t.masterNode === nodeId);
+    if (!drawerSearch.trim()) return nodeTools;
 
-  const filterList = (list: ToolItem[]) => {
-    if (!drawerSearch.trim()) return list;
     const q = drawerSearch.toLowerCase().trim();
-    return list.filter(t => 
-      t.name.toLowerCase().includes(q) || 
+    return nodeTools.filter(t => 
+      t.name.toLowerCase().includes(q) ||
       t.tagline.toLowerCase().includes(q) ||
       t.tags.some(tag => tag.toLowerCase().includes(q))
     );
   };
 
-  const filteredFinancial = filterList(financialTools);
-  const filteredDev = filterList(devTools);
-  const filteredProductivity = filterList(productivityTools);
-  const totalFiltered = filteredFinancial.length + filteredDev.length + filteredProductivity.length;
-
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex" id="sidebar-drawer-root">
-      
-      {/* Backdrop overlay */}
+    <div className="fixed inset-0 z-50 overflow-hidden">
+      {/* Backdrop */}
       <div 
-        onClick={onClose}
-        className="fixed inset-0 bg-slate-950/60 dark:bg-black/75 backdrop-blur-md transition-opacity duration-300 animate-fadeIn cursor-pointer"
-        aria-label="Close sidebar backdrop"
-        id="sidebar-drawer-backdrop"
+        onClick={() => {
+          playClick();
+          onClose();
+        }}
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 cursor-pointer"
+        aria-hidden="true"
       />
 
-      {/* Slide-in Drawer Container */}
-      <div 
-        className="relative z-10 w-full max-w-md sm:max-w-lg bg-white/95 dark:bg-[#060814]/95 text-slate-900 dark:text-white h-full shadow-2xl border-r border-slate-200/80 dark:border-white/10 flex flex-col backdrop-blur-2xl transform transition-transform duration-300 ease-out animate-slideInLeft overflow-hidden"
-        id="sidebar-drawer-panel"
-      >
-        
-        {/* Drawer Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-200 dark:border-white/10 bg-slate-50/70 dark:bg-white/[0.02] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-400 via-purple-500 to-pink-500 p-[2px] shadow-lg shadow-purple-500/20 flex items-center justify-center">
-              <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-white">
-                <Sparkles className="w-5 h-5 text-cyan-300 animate-pulse" />
+      {/* Drawer Panel */}
+      <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
+        <div 
+          className="w-screen max-w-md bg-[#07070b]/95 border-l border-[#00f0ff]/20 shadow-2xl backdrop-blur-2xl flex flex-col"
+          id="tools-sidebar-drawer"
+        >
+          {/* Drawer Header */}
+          <div className="p-4 sm:p-5 border-b border-white/10 flex items-center justify-between bg-black/40">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-[#00f0ff]/20 border border-[#00f0ff]/40 flex items-center justify-center text-[#00f0ff]">
+                <Layers className="w-4 h-4" />
               </div>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white">
-                  Tool Directory
+              <div>
+                <h3 className="text-base sm:text-lg font-black text-white font-heading">
+                  All 100 Tools Directory
                 </h3>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/10 text-purple-600 dark:text-purple-300 border border-purple-500/20">
-                  {tools.length} Tools
-                </span>
+                <p className="text-xs font-mono text-[#00f0ff]">
+                  8 Master Nodes • Client-Side Engine
+                </p>
               </div>
-              <p className="text-xs text-slate-500 dark:text-white/50">
-                Quick jump to any micro-tool
-              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                playClick();
+                onClose();
+              }}
+              className="p-2 rounded-xl text-white/60 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              aria-label="Close directory"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Quick Search inside Drawer */}
+          <div className="p-4 border-b border-white/10 bg-white/[0.02]">
+            <div className="relative flex items-center">
+              <Search className="w-4 h-4 text-[#00f0ff] absolute left-3 pointer-events-none" />
+              <input
+                type="text"
+                value={drawerSearch}
+                onChange={(e) => setDrawerSearch(e.target.value)}
+                placeholder="Search across all 100 tools..."
+                className="w-full pl-9 pr-8 py-2 text-xs sm:text-sm bg-black/50 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-hidden focus:border-[#00f0ff]/50 font-medium"
+              />
+              {drawerSearch && (
+                <button
+                  onClick={() => setDrawerSearch('')}
+                  className="absolute right-2.5 p-1 text-white/40 hover:text-white"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
           </div>
 
-          {/* Close button */}
-          <button
-            onClick={onClose}
-            className="p-2.5 rounded-xl text-slate-500 dark:text-white/60 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/80 dark:hover:bg-white/10 transition-colors cursor-pointer border border-transparent hover:border-slate-300 dark:hover:border-white/15"
-            aria-label="Close drawer"
-            id="btn-close-sidebar-drawer"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+          {/* Master Nodes Tool Hierarchy */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scroll">
+            {MASTER_NODES.map((node) => {
+              const nodeTools = getToolsForNode(node.id);
+              const isExpanded = Boolean(drawerSearch.trim()) || Boolean(expandedNodes[node.id]);
+              const IconComponent = iconMap[node.icon] || Sparkles;
 
-        {/* Search inside Drawer */}
-        <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-white/10 bg-white/40 dark:bg-white/[0.01]">
-          <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 dark:text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={drawerSearch}
-              onChange={(e) => setDrawerSearch(e.target.value)}
-              placeholder="Search tools, formulas, generators..."
-              className="w-full pl-10 pr-9 py-2.5 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs sm:text-sm text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
-              id="sidebar-drawer-search-input"
-            />
-            {drawerSearch && (
-              <button
-                onClick={() => setDrawerSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-white"
-              >
-                ✕
-              </button>
-            )}
+              if (drawerSearch.trim() && nodeTools.length === 0) return null;
+
+              return (
+                <div 
+                  key={node.id} 
+                  className="rounded-xl border border-white/10 bg-white/[0.02] overflow-hidden"
+                >
+                  {/* Node Accordion Header */}
+                  <button
+                    onClick={() => toggleNodeExpand(node.id)}
+                    className="w-full flex items-center justify-between p-3 text-left hover:bg-white/5 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="w-5 h-5 rounded text-[10px] font-mono font-bold bg-[#00f0ff]/20 text-[#00f0ff] flex items-center justify-center shrink-0">
+                        0{node.tabNumber}
+                      </span>
+                      <IconComponent className="w-4 h-4 text-[#00f0ff] shrink-0" />
+                      <span className="text-xs sm:text-sm font-bold text-white truncate">
+                        {node.name}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-white/10 text-cyan-200">
+                        {nodeTools.length}
+                      </span>
+                      {isExpanded ? (
+                        <ChevronDown className="w-4 h-4 text-white/40" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4 text-white/40" />
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Expanded Tools List */}
+                  {isExpanded && (
+                    <div className="border-t border-white/5 bg-black/30 p-1.5 space-y-1">
+                      {nodeTools.map((tool) => {
+                        const ToolIcon = iconMap[tool.icon] || Sparkles;
+                        return (
+                          <button
+                            key={tool.id}
+                            onClick={() => {
+                              playToolSelect();
+                              if (onSelectMasterNode) onSelectMasterNode(node.id);
+                              onSelectTool(tool);
+                              onClose();
+                            }}
+                            className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-[#00f0ff]/10 text-left transition-all group cursor-pointer"
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                              <ToolIcon className="w-3.5 h-3.5 text-[#00f0ff] shrink-0 group-hover:scale-110 transition-transform" />
+                              <div className="min-w-0">
+                                <span className="text-xs font-medium text-white/90 group-hover:text-[#00f0ff] truncate block">
+                                  {tool.name}
+                                </span>
+                                <span className="text-[10px] text-white/40 truncate block">
+                                  {tool.tagline}
+                                </span>
+                              </div>
+                            </div>
+                            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-white/60 group-hover:bg-[#00f0ff] group-hover:text-black shrink-0 font-bold transition-colors">
+                              Open
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Drawer Footer */}
+          <div className="p-4 border-t border-white/10 bg-black/50 flex flex-col gap-2">
+            <div className="text-[10px] font-mono text-center text-white/30">
+              QuickFree Tools • 100 Tools • 100% In-Browser Compute
+            </div>
           </div>
         </div>
-
-        {/* Scrollable Tool Directory List */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6 custom-scrollbar">
-          
-          {totalFiltered === 0 ? (
-            <div className="text-center py-12 px-4">
-              <div className="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center mx-auto mb-3 text-xl">
-                🔍
-              </div>
-              <p className="text-sm font-bold text-slate-700 dark:text-white/80 mb-1">
-                No tools matching &ldquo;{drawerSearch}&rdquo;
-              </p>
-              <p className="text-xs text-slate-500 dark:text-white/40">
-                Try searching for SIP, EMI, JSON, Base64, QR, or PDF.
-              </p>
-            </div>
-          ) : (
-            <>
-              {/* Category 1: Financial Engines */}
-              {filteredFinancial.length > 0 && (
-                <div className="space-y-2.5">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-white/10">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">💰</span>
-                      <span className="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                        Financial Engines ({filteredFinancial.length})
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => {
-                        onSelectCategory('financial');
-                        onClose();
-                        const el = document.getElementById('tools-section');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className="text-[11px] font-bold text-purple-600 dark:text-purple-400 hover:underline"
-                    >
-                      Filter View
-                    </button>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    {filteredFinancial.map((tool) => {
-                      const IconComponent = iconMap[tool.icon] || Calculator;
-                      return (
-                        <button
-                          key={tool.id}
-                          onClick={() => {
-                            onSelectTool(tool);
-                            onClose();
-                          }}
-                          className="w-full text-left p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-white/[0.03] hover:bg-emerald-500/10 dark:hover:bg-emerald-500/10 border border-slate-200/70 dark:border-white/5 hover:border-emerald-500/30 transition-all flex items-center justify-between group cursor-pointer"
-                          id={`drawer-tool-item-${tool.id}`}
-                        >
-                          <div className="flex items-center gap-3 min-w-0">
-                            <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${tool.gradient} p-0.5 shrink-0 flex items-center justify-center text-white shadow-xs`}>
-                              <div className="w-full h-full bg-slate-950/20 rounded-[10px] flex items-center justify-center">
-                                <IconComponent className="w-4 h-4" />
-                              </div>
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white/90 truncate group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                                  {tool.name}
-                                </span>
-                                {tool.badge && (
-                                  <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                                    {tool.badge}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-[11px] text-slate-500 dark:text-white/40 truncate">
-                                {tool.tagline}
-                              </p>
-                            </div>
-                          </div>
-                          <ChevronRight className="w-4 h-4 text-slate-400 dark:text-white/30 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* Category 2: Developer & Tech Utilities */}
-              {filteredDev.length > 0 && (
-                <div className="space-y-2.5 pt-2">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-white/10">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">💻</span>
-                      <span className="text-xs font-black uppercase tracking-wider text-cyan-600 dark:text-cyan-400">
-                        Developer & Tech Utilities ({filteredDev.length})
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => {
-                        onSelectCategory('tech_utilities');
-                        onClose();
-                        const el = document.getElementById('tools-section');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className="text-[11px] font-bold text-purple-600 dark:text-purple-400 hover:underline"
-                    >
-                      Filter View
-                    </button>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    {filteredDev.map((tool) => {
-                      const IconComponent = iconMap[tool.icon] || Code;
-                      return (
-                        <button
-                          key={tool.id}
-                          onClick={() => {
-                            onSelectTool(tool);
-                            onClose();
-                          }}
-                          className="w-full text-left p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-white/[0.03] hover:bg-cyan-500/10 dark:hover:bg-cyan-500/10 border border-slate-200/70 dark:border-white/5 hover:border-cyan-500/30 transition-all flex items-center justify-between group cursor-pointer"
-                          id={`drawer-tool-item-${tool.id}`}
-                        >
-                          <div className="flex items-center gap-3 min-w-0">
-                            <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${tool.gradient} p-0.5 shrink-0 flex items-center justify-center text-white shadow-xs`}>
-                              <div className="w-full h-full bg-slate-950/20 rounded-[10px] flex items-center justify-center">
-                                <IconComponent className="w-4 h-4" />
-                              </div>
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white/90 truncate group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                                  {tool.name}
-                                </span>
-                                {tool.badge && (
-                                  <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400">
-                                    {tool.badge}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-[11px] text-slate-500 dark:text-white/40 truncate">
-                                {tool.tagline}
-                              </p>
-                            </div>
-                          </div>
-                          <ChevronRight className="w-4 h-4 text-slate-400 dark:text-white/30 group-hover:text-cyan-500 group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* Category 3: Everyday Productivity */}
-              {filteredProductivity.length > 0 && (
-                <div className="space-y-2.5 pt-2">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-slate-200 dark:border-white/10">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">⚡</span>
-                      <span className="text-xs font-black uppercase tracking-wider text-pink-600 dark:text-pink-400">
-                        Everyday Productivity ({filteredProductivity.length})
-                      </span>
-                    </div>
-                    <button
-                      onClick={() => {
-                        onSelectCategory('productivity');
-                        onClose();
-                        const el = document.getElementById('tools-section');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className="text-[11px] font-bold text-purple-600 dark:text-purple-400 hover:underline"
-                    >
-                      Filter View
-                    </button>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    {filteredProductivity.map((tool) => {
-                      const IconComponent = iconMap[tool.icon] || Zap;
-                      return (
-                        <button
-                          key={tool.id}
-                          onClick={() => {
-                            onSelectTool(tool);
-                            onClose();
-                          }}
-                          className="w-full text-left p-2.5 sm:p-3 rounded-2xl bg-white dark:bg-white/[0.03] hover:bg-pink-500/10 dark:hover:bg-pink-500/10 border border-slate-200/70 dark:border-white/5 hover:border-pink-500/30 transition-all flex items-center justify-between group cursor-pointer"
-                          id={`drawer-tool-item-${tool.id}`}
-                        >
-                          <div className="flex items-center gap-3 min-w-0">
-                            <div className={`w-8 h-8 rounded-xl bg-gradient-to-br ${tool.gradient} p-0.5 shrink-0 flex items-center justify-center text-white shadow-xs`}>
-                              <div className="w-full h-full bg-slate-950/20 rounded-[10px] flex items-center justify-center">
-                                <IconComponent className="w-4 h-4" />
-                              </div>
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white/90 truncate group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
-                                  {tool.name}
-                                </span>
-                                {tool.badge && (
-                                  <span className="hidden sm:inline-block px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-pink-500/10 text-pink-600 dark:text-pink-400">
-                                    {tool.badge}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-[11px] text-slate-500 dark:text-white/40 truncate">
-                                {tool.tagline}
-                              </p>
-                            </div>
-                          </div>
-                          <ChevronRight className="w-4 h-4 text-slate-400 dark:text-white/30 group-hover:text-pink-500 group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </>
-          )}
-
-        </div>
-
-        {/* Drawer Bottom Quick Action */}
-        <div className="p-4 border-t border-slate-200 dark:border-white/10 bg-slate-50/80 dark:bg-white/[0.02] flex items-center justify-between text-xs">
-          <span className="text-slate-500 dark:text-white/40">
-            Current filter: <strong className="text-purple-600 dark:text-purple-300 font-bold capitalize">{currentCategory === 'all' ? 'All Tools' : currentCategory.replace('_', ' ')}</strong>
-          </span>
-          <button
-            onClick={() => {
-              onSelectCategory('all');
-              onClose();
-              const el = document.getElementById('tools-section');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="px-3 py-1.5 rounded-lg bg-slate-200 dark:bg-white/10 font-bold text-slate-700 dark:text-white hover:bg-purple-600 hover:text-white transition-colors"
-          >
-            View All 35
-          </button>
-        </div>
-
       </div>
     </div>
   );

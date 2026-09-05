@@ -1167,8 +1167,8 @@ export function generateSingleFileHtmlCode(): string {
       <nav>
         <ul class="nav-links">
           <li><a href="#home">Home</a></li>
-          <li><a href="#tools">All Tools (50+)</a></li>
-          <li><a href="javascript:void(0)" onclick="alert('QuickFree Tools: Handcrafted collection of 35+ free utilities operating 100% locally in your browser.')">About Us</a></li>
+          <li><a href="#tools">All Tools (100+)</a></li>
+          <li><a href="javascript:void(0)" onclick="alert('QuickFree Tools: Handcrafted collection of 100+ free utilities operating 100% locally in your browser.')">About Us</a></li>
           <li><a href="javascript:void(0)" onclick="alert('Privacy Guarantee: All computations run client-side in your browser. Zero tracking or telemetry.')">Privacy Policy</a></li>
         </ul>
       </nav>

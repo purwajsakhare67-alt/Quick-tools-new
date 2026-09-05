@@ -16,6 +16,7 @@ import {
   Link as LinkIcon
 } from 'lucide-react';
 import { TOOLS_DATA } from '../data/toolsData';
+import { MASTER_NODES } from '../data/masterNodes';
 import { generateXmlSitemap, generateSitemapEntries } from '../utils/sitemap';
 import { ToolItem, ToolCategory } from '../types';
 
@@ -67,7 +68,7 @@ export const Sitemap: React.FC<SitemapProps> = ({ isOpen, onClose, onSelectTool 
   };
 
   const filteredTools = TOOLS_DATA.filter(tool => {
-    const matchesCat = filterCategory === 'all' || tool.category === filterCategory;
+    const matchesCat = filterCategory === 'all' || tool.masterNode === filterCategory || tool.category === filterCategory;
     const matchesQuery = searchQuery === '' || 
       tool.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       tool.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -98,11 +99,11 @@ export const Sitemap: React.FC<SitemapProps> = ({ isOpen, onClose, onSelectTool 
                   Official XML Sitemap & Directory
                 </h3>
                 <span className="text-[11px] font-mono font-bold bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded-full">
-                  SPA Canonical (https://vercel.app)
+                  Protocol 0.9 ({sitemapEntries.length} Endpoints)
                 </span>
               </div>
               <p className="text-xs sm:text-sm text-slate-500 dark:text-white/60">
-                Official Google-compliant Single-Page Application (SPA) sitemap index without fragment hashes
+                Official Google-compliant Single-Page Application (SPA) sitemap index with canonical deep query endpoints
               </p>
             </div>
           </div>
@@ -183,20 +184,27 @@ export const Sitemap: React.FC<SitemapProps> = ({ isOpen, onClose, onSelectTool 
               </div>
 
               <div className="flex items-center gap-1 sm:col-span-6 overflow-x-auto pb-1 sm:pb-0">
-                {(['all', 'financial', 'tech_utilities', 'productivity_math'] as const).map(cat => (
+                <button
+                  onClick={() => setFilterCategory('all')}
+                  className={`px-2.5 py-1.5 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-all ${
+                    filterCategory === 'all'
+                      ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700/50'
+                      : 'text-slate-500 dark:text-white/50 hover:bg-slate-100 dark:hover:bg-white/5'
+                  }`}
+                >
+                  All ({TOOLS_DATA.length})
+                </button>
+                {MASTER_NODES.map(node => (
                   <button
-                    key={cat}
-                    onClick={() => setFilterCategory(cat)}
+                    key={node.id}
+                    onClick={() => setFilterCategory(node.id as any)}
                     className={`px-2.5 py-1.5 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-all ${
-                      filterCategory === cat
+                      filterCategory === node.id
                         ? 'bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700/50'
                         : 'text-slate-500 dark:text-white/50 hover:bg-slate-100 dark:hover:bg-white/5'
                     }`}
                   >
-                    {cat === 'all' && 'All (35)'}
-                    {cat === 'financial' && '💰 Finance (12)'}
-                    {cat === 'tech_utilities' && '💻 Tech (12)'}
-                    {cat === 'productivity_math' && '⚡ Productivity (11)'}
+                    {node.tabLabel} ({node.expectedCount})
                   </button>
                 ))}
               </div>
@@ -218,7 +226,7 @@ export const Sitemap: React.FC<SitemapProps> = ({ isOpen, onClose, onSelectTool 
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5 flex-wrap">
                           <a 
-                            href={`#tool-${tool.id}`}
+                            href={`?tool=${tool.id}`}
                             onClick={(e) => {
                               if (onSelectTool) {
                                 e.preventDefault();
@@ -231,10 +239,10 @@ export const Sitemap: React.FC<SitemapProps> = ({ isOpen, onClose, onSelectTool 
                             {tool.name}
                           </a>
                           <span className={`text-[9px] px-1.5 py-0.2 rounded font-bold uppercase ${
-                            tool.category === 'financial' 
+                            tool.masterNode === 'finance_wealth'
                               ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' 
-                              : tool.category === 'tech_utilities'
-                              ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400' 
+                              : tool.masterNode === 'crypto_shields'
+                              ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400' 
                               : 'bg-purple-500/10 text-purple-600 dark:text-purple-400'
                           }`}>
                             {tool.categoryName || tool.category}
@@ -248,11 +256,11 @@ export const Sitemap: React.FC<SitemapProps> = ({ isOpen, onClose, onSelectTool 
 
                     <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
                       <code className="text-[10px] font-mono text-purple-600 dark:text-cyan-400 bg-purple-50 dark:bg-white/[0.04] px-2 py-0.5 rounded border border-purple-200 dark:border-white/10 hidden md:inline">
-                        #tool-{tool.id}
+                        ?tool={tool.id}
                       </code>
 
                       <a
-                        href={`#tool-${tool.id}`}
+                        href={`?tool=${tool.id}`}
                         onClick={(e) => {
                           if (onSelectTool) {
                             e.preventDefault();

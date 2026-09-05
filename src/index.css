@@ -9,46 +9,55 @@
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
-    /* Theme 1: Light Mode */
-    --bg-primary: #ffffff;
-    --bg-surface: rgba(255, 255, 255, 0.85);
+    /* Mode 1: Light Theme */
+    --bg-primary: #f8fafc;
+    --bg-surface: rgba(255, 255, 255, 0.9);
     --bg-card: rgba(255, 255, 255, 0.95);
-    --text-main: #1a1a1a;
+    --text-main: #0f172a;
     --text-muted: #64748b;
-    --text-sub: #475569;
+    --text-sub: #334155;
     --border-color: #e2e8f0;
     --border-highlight: rgba(139, 92, 246, 0.35);
+    --neon-cyan: #0284c7;
+    --neon-purple: #7c3aed;
+    color-scheme: light;
   }
 
   [data-theme="dark"], .dark {
-    /* Theme 2: Dark Mode */
-    --bg-primary: #0d1117;
-    --bg-surface: rgba(22, 27, 34, 0.85);
-    --bg-card: rgba(22, 27, 34, 0.95);
+    /* Mode 2: Cyberpunk Obsidian Dark Theme */
+    --bg-primary: #09090b;
+    --bg-surface: rgba(12, 12, 18, 0.85);
+    --bg-card: rgba(18, 18, 28, 0.9);
     --text-main: #f0f6fc;
     --text-muted: #94a3b8;
     --text-sub: #cbd5e1;
-    --border-color: rgba(255, 255, 255, 0.09);
-    --border-highlight: rgba(168, 85, 247, 0.4);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-highlight: rgba(0, 240, 255, 0.4);
+    --neon-cyan: #00f0ff;
+    --neon-purple: #bd00ff;
+    color-scheme: dark;
   }
 
   [data-theme="reading"], .reading {
-    /* Theme 3: Reading Mode (Warm Sepia) */
+    /* Mode 3: Eye-Care Sepia Reading Theme */
     --bg-primary: #fbf0d9;
-    --bg-surface: rgba(244, 236, 216, 0.85);
-    --bg-card: rgba(248, 241, 227, 0.95);
-    --text-main: #5b4636;
-    --text-muted: #846d5b;
-    --text-sub: #6c5443;
-    --border-color: rgba(180, 140, 100, 0.25);
+    --bg-surface: rgba(244, 236, 216, 0.9);
+    --bg-card: rgba(252, 246, 235, 0.95);
+    --text-main: #432818;
+    --text-muted: #785942;
+    --text-sub: #583d28;
+    --border-color: rgba(180, 140, 100, 0.3);
     --border-highlight: rgba(190, 120, 60, 0.45);
+    --neon-cyan: #b45309;
+    --neon-purple: #92400e;
+    color-scheme: light;
   }
 
   * {
-    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
   }
 
-  body {
+  html, body {
     font-family: var(--font-sans);
     background-color: var(--bg-primary);
     color: var(--text-main);
@@ -205,6 +214,118 @@
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+/* Floating Navigation Header across 3 Theme Modes */
+.cyber-floating-nav {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dark .cyber-floating-nav {
+  background: rgba(9, 9, 11, 0.85);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  box-shadow: 0 4px 20px -2px rgba(0, 240, 255, 0.08), 0 0 15px -3px rgba(189, 0, 255, 0.1);
+}
+
+:root:not(.dark):not(.reading) .cyber-floating-nav {
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+}
+
+.reading .cyber-floating-nav {
+  background: rgba(244, 236, 216, 0.92);
+  border-bottom: 1px solid rgba(180, 140, 100, 0.3);
+  box-shadow: 0 4px 20px -2px rgba(90, 60, 30, 0.08);
+}
+
+/* Glass-Card Grid Architecture & Hardware-Accelerated Inertia */
+.cyber-glass-card {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, background-color 0.3s ease;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+}
+
+.dark .cyber-glass-card {
+  background: linear-gradient(135deg, rgba(16, 16, 24, 0.85) 0%, rgba(10, 10, 14, 0.95) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6);
+}
+
+.dark .cyber-glass-card:hover {
+  transform: translateY(-5px) translate3d(0, 0, 0);
+  border-color: rgba(0, 240, 255, 0.5);
+  box-shadow: 0 16px 36px -8px rgba(0, 240, 255, 0.25), 0 0 20px 2px rgba(189, 0, 255, 0.18);
+}
+
+:root:not(.dark):not(.reading) .cyber-glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.98) 100%);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.06);
+}
+
+:root:not(.dark):not(.reading) .cyber-glass-card:hover {
+  transform: translateY(-5px) translate3d(0, 0, 0);
+  border-color: rgba(2, 132, 199, 0.5);
+  box-shadow: 0 16px 36px -8px rgba(2, 132, 199, 0.18);
+}
+
+.reading .cyber-glass-card {
+  background: linear-gradient(135deg, rgba(252, 246, 235, 0.95) 0%, rgba(246, 238, 222, 0.98) 100%);
+  border: 1px solid rgba(180, 140, 100, 0.3);
+  box-shadow: 0 8px 24px -6px rgba(80, 50, 20, 0.06);
+}
+
+.reading .cyber-glass-card:hover {
+  transform: translateY(-5px) translate3d(0, 0, 0);
+  border-color: rgba(180, 83, 9, 0.5);
+  box-shadow: 0 16px 36px -8px rgba(180, 83, 9, 0.18);
+}
+
+/* Tap Drop & Fluid Ripple System (Micro-Interactions) */
+.fluid-ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transform: scale(0);
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.5) 0%, rgba(189, 0, 255, 0.3) 45%, rgba(0, 240, 255, 0) 75%);
+  animation: fluidWaterDrop 0.62s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 99;
+  will-change: transform, opacity;
+}
+
+@keyframes fluidWaterDrop {
+  0% {
+    transform: scale(0);
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Tab Isolation Animation: Fade and Slide-Up */
+@keyframes slideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUpFade {
+  animation: slideUpFade 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes fadeIn {

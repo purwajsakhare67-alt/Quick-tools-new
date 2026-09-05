@@ -101,6 +101,71 @@ import { UniversalSipCalculator } from './tools/UniversalSipCalculator';
 import { UniversalEmiCalculator } from './tools/UniversalEmiCalculator';
 import { UniversalBillSplitter } from './tools/UniversalBillSplitter';
 import { UniversalCryptoRoi } from './tools/UniversalCryptoRoi';
+import { UniversalAiPromptEnhancer } from './tools/UniversalAiPromptEnhancer';
+import { UniversalSvgWaveBlob } from './tools/UniversalSvgWaveBlob';
+import { UniversalSocialSafeZone } from './tools/UniversalSocialSafeZone';
+import { UniversalCsvToMarkdown } from './tools/UniversalCsvToMarkdown';
+import { UniversalPaletteExtractor } from './tools/UniversalPaletteExtractor';
+import { UniversalBpmDelayCalculator } from './tools/UniversalBpmDelayCalculator';
+import { UniversalRegexVisualizer } from './tools/UniversalRegexVisualizer';
+import { UniversalPasswordStrengthAnalyzer } from './tools/UniversalPasswordStrengthAnalyzer';
+import { UniversalUtmLinkBuilder } from './tools/UniversalUtmLinkBuilder';
+import { UniversalCitationFormatter } from './tools/UniversalCitationFormatter';
+import { UniversalBase64ImageProcessor } from './tools/UniversalBase64ImageProcessor';
+import { UniversalMockProfileGenerator } from './tools/UniversalMockProfileGenerator';
+import { UniversalHtmlEntityProcessor } from './tools/UniversalHtmlEntityProcessor';
+import { UniversalQrCodeScanner } from './tools/UniversalQrCodeScanner';
+import { UniversalTextCaseWizard } from './tools/UniversalTextCaseWizard';
+import { UniversalLoremIpsumGenerator } from './tools/UniversalLoremIpsumGenerator';
+import { UniversalVisualDiffChecker } from './tools/UniversalVisualDiffChecker';
+import { UniversalResolutionMonitor } from './tools/UniversalResolutionMonitor';
+import { UniversalBoxShadowGradientStudio } from './tools/UniversalBoxShadowGradientStudio';
+import { UniversalMarkdownHtmlConverter } from './tools/UniversalMarkdownHtmlConverter';
+import { UniversalUserAgentInspector } from './tools/UniversalUserAgentInspector';
+import { UniversalClientHashEngine } from './tools/UniversalClientHashEngine';
+import { UniversalJsonCsvFlatteningMatrix } from './tools/UniversalJsonCsvFlatteningMatrix';
+import { UniversalHtmlTextStripper } from './tools/UniversalHtmlTextStripper';
+import { UniversalUnixTimestampStudio } from './tools/UniversalUnixTimestampStudio';
+import { UniversalJsonValidatorLinter } from './tools/UniversalJsonValidatorLinter';
+import { UniversalAsciiArtGenerator } from './tools/UniversalAsciiArtGenerator';
+import { UniversalWordReadingAnalytics } from './tools/UniversalWordReadingAnalytics';
+import { UniversalCssMinifierOptimizer } from './tools/UniversalCssMinifierOptimizer';
+import { UniversalCryptoRandomGenerator } from './tools/UniversalCryptoRandomGenerator';
+import { UniversalUrlEncoderDecoder } from './tools/UniversalUrlEncoderDecoder';
+import { UniversalHexRgbConverter } from './tools/UniversalHexRgbConverter';
+import { UniversalHtmlTableGenerator } from './tools/UniversalHtmlTableGenerator';
+import { UniversalDnsInspector } from './tools/UniversalDnsInspector';
+import { UniversalTextLineSorterStripper } from './tools/UniversalTextLineSorterStripper';
+import { UniversalTextBinaryConverter } from './tools/UniversalTextBinaryConverter';
+import { UniversalJsonKeysSorter } from './tools/UniversalJsonKeysSorter';
+import { UniversalHtmlBeautifier } from './tools/UniversalHtmlBeautifier';
+import { UniversalLatencyChecker } from './tools/UniversalLatencyChecker';
+import { UniversalBulkMultiReplace } from './tools/UniversalBulkMultiReplace';
+import { UniversalSqlQueryFormatter } from './tools/UniversalSqlQueryFormatter';
+import { UniversalSeoSlugConverter } from './tools/UniversalSeoSlugConverter';
+import { UniversalJsObfuscator } from './tools/UniversalJsObfuscator';
+import { UniversalRomanNumeralsConverter } from './tools/UniversalRomanNumeralsConverter';
+import { UniversalBulkUuidGenerator } from './tools/UniversalBulkUuidGenerator';
+import { UniversalNumberToWordsConverter } from './tools/UniversalNumberToWordsConverter';
+import { UniversalJsonToXmlConverter } from './tools/UniversalJsonToXmlConverter';
+import { UniversalHtmlMarkupStripper } from './tools/UniversalHtmlMarkupStripper';
+import { UniversalNetworkLocalInfoTracker } from './tools/UniversalNetworkLocalInfoTracker';
+import { UniversalLeapYearMatrixCalculator } from './tools/UniversalLeapYearMatrixCalculator';
+import { UniversalBencodeParser } from './tools/UniversalBencodeParser';
+import { UniversalLeetSpeakScrambler } from './tools/UniversalLeetSpeakScrambler';
+import { UniversalStringTokenizer } from './tools/UniversalStringTokenizer';
+import { UniversalImageColorInverter } from './tools/UniversalImageColorInverter';
+import { UniversalEmptyLineTrimmer } from './tools/UniversalEmptyLineTrimmer';
+import { UniversalJsonToYamlConverter } from './tools/UniversalJsonToYamlConverter';
+import { UniversalTextEmojiRepeater } from './tools/UniversalTextEmojiRepeater';
+import { UniversalHtmlMinifier } from './tools/UniversalHtmlMinifier';
+import { UniversalDurationDaysCalculator } from './tools/UniversalDurationDaysCalculator';
+import { UniversalBase64ToTextDecoder } from './tools/UniversalBase64ToTextDecoder';
+import { UniversalSlugToTextConverter } from './tools/UniversalSlugToTextConverter';
+import { UniversalTextToHexEncoder } from './tools/UniversalTextToHexEncoder';
+import { UniversalYamlToJsonEngine } from './tools/UniversalYamlToJsonEngine';
+import { UniversalCryptoPasswordMixer } from './tools/UniversalCryptoPasswordMixer';
+import { UniversalTorrentBencodeJsonParser } from './tools/UniversalTorrentBencodeJsonParser';
 import { playSound } from '../utils/audioFeedback';
 
 interface InteractiveToolModalProps {
@@ -223,6 +288,71 @@ export const InteractiveToolModal: React.FC<InteractiveToolModalProps> = ({
           {tool.demoType === 'password' && <PasswordGeneratorDemo />}
           {tool.demoType === 'color' && <ColorPaletteDemo />}
           {tool.demoType === 'json' && <JsonToTsDemo />}
+          {tool.demoType === 'prompt_enhancer' && <UniversalAiPromptEnhancer onBackToGrid={onClose} />}
+          {tool.demoType === 'svg_wave' && <UniversalSvgWaveBlob onBackToGrid={onClose} />}
+          {tool.demoType === 'safe_zone' && <UniversalSocialSafeZone onBackToGrid={onClose} />}
+          {tool.demoType === 'csv_markdown' && <UniversalCsvToMarkdown onBackToGrid={onClose} />}
+          {tool.demoType === 'palette_extractor' && <UniversalPaletteExtractor onBackToGrid={onClose} />}
+          {tool.demoType === 'bpm_delay' && <UniversalBpmDelayCalculator onBackToGrid={onClose} />}
+          {tool.demoType === 'regex_visualizer' && <UniversalRegexVisualizer onBackToGrid={onClose} />}
+          {tool.demoType === 'password_analyzer' && <UniversalPasswordStrengthAnalyzer onBackToGrid={onClose} />}
+          {tool.demoType === 'utm_builder' && <UniversalUtmLinkBuilder onBackToGrid={onClose} />}
+          {tool.demoType === 'citation_formatter' && <UniversalCitationFormatter onBackToGrid={onClose} />}
+          {tool.demoType === 'base64_image' && <UniversalBase64ImageProcessor onBackToGrid={onClose} />}
+          {tool.demoType === 'mock_profile' && <UniversalMockProfileGenerator onBackToGrid={onClose} />}
+          {tool.demoType === 'html_entity' && <UniversalHtmlEntityProcessor onBackToGrid={onClose} />}
+          {tool.demoType === 'qr_scanner' && <UniversalQrCodeScanner onBackToGrid={onClose} />}
+          {tool.demoType === 'case_wizard' && <UniversalTextCaseWizard onBackToGrid={onClose} />}
+          {tool.demoType === 'lorem_generator' && <UniversalLoremIpsumGenerator onBackToGrid={onClose} />}
+          {tool.demoType === 'side_diff_checker' && <UniversalVisualDiffChecker onBackToGrid={onClose} />}
+          {tool.demoType === 'resolution_monitor' && <UniversalResolutionMonitor onBackToGrid={onClose} />}
+          {tool.demoType === 'box_shadow_gradient' && <UniversalBoxShadowGradientStudio onBackToGrid={onClose} />}
+          {tool.demoType === 'markdown_html_converter' && <UniversalMarkdownHtmlConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'user_agent_inspector' && <UniversalUserAgentInspector onBackToGrid={onClose} />}
+          {tool.demoType === 'client_hash_engine' && <UniversalClientHashEngine onBackToGrid={onClose} />}
+          {tool.demoType === 'json_csv_flatten' && <UniversalJsonCsvFlatteningMatrix onBackToGrid={onClose} />}
+          {tool.demoType === 'html_text_stripper' && <UniversalHtmlTextStripper onBackToGrid={onClose} />}
+          {tool.demoType === 'timestamp_studio' && <UniversalUnixTimestampStudio onBackToGrid={onClose} />}
+          {tool.demoType === 'json_validator_linter' && <UniversalJsonValidatorLinter onBackToGrid={onClose} />}
+          {tool.demoType === 'ascii_art_generator' && <UniversalAsciiArtGenerator onBackToGrid={onClose} />}
+          {tool.demoType === 'word_reading_analytics' && <UniversalWordReadingAnalytics onBackToGrid={onClose} />}
+          {tool.demoType === 'css_minifier_optimizer' && <UniversalCssMinifierOptimizer onBackToGrid={onClose} />}
+          {tool.demoType === 'crypto_random_generator' && <UniversalCryptoRandomGenerator onBackToGrid={onClose} />}
+          {tool.demoType === 'url_encoder_decoder' && <UniversalUrlEncoderDecoder onBackToGrid={onClose} />}
+          {tool.demoType === 'hex_rgb_converter' && <UniversalHexRgbConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'html_table_generator' && <UniversalHtmlTableGenerator onBackToGrid={onClose} />}
+          {tool.demoType === 'dns_inspector' && <UniversalDnsInspector onBackToGrid={onClose} />}
+          {tool.demoType === 'text_line_sorter_stripper' && <UniversalTextLineSorterStripper onBackToGrid={onClose} />}
+          {tool.demoType === 'text_binary_converter' && <UniversalTextBinaryConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'json_keys_sorter' && <UniversalJsonKeysSorter onBackToGrid={onClose} />}
+          {tool.demoType === 'html_beautifier_indenter' && <UniversalHtmlBeautifier onBackToGrid={onClose} />}
+          {tool.demoType === 'latency_stream_checker' && <UniversalLatencyChecker onBackToGrid={onClose} />}
+          {tool.demoType === 'bulk_multi_replace' && <UniversalBulkMultiReplace onBackToGrid={onClose} />}
+          {tool.demoType === 'sql_query_formatter' && <UniversalSqlQueryFormatter onBackToGrid={onClose} />}
+          {tool.demoType === 'seo_slug_converter' && <UniversalSeoSlugConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'javascript_obfuscator' && <UniversalJsObfuscator onBackToGrid={onClose} />}
+          {tool.demoType === 'roman_numerals_converter' && <UniversalRomanNumeralsConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'bulk_uuid_generator' && <UniversalBulkUuidGenerator onBackToGrid={onClose} />}
+          {tool.demoType === 'number_to_words' && <UniversalNumberToWordsConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'json_to_xml' && <UniversalJsonToXmlConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'html_markup_stripper' && <UniversalHtmlMarkupStripper onBackToGrid={onClose} />}
+          {tool.demoType === 'network_local_tracker' && <UniversalNetworkLocalInfoTracker onBackToGrid={onClose} />}
+          {tool.demoType === 'leap_year_matrix' && <UniversalLeapYearMatrixCalculator onBackToGrid={onClose} />}
+          {tool.demoType === 'bencode_parser' && <UniversalBencodeParser onBackToGrid={onClose} />}
+          {tool.demoType === 'leet_speak_scrambler' && <UniversalLeetSpeakScrambler onBackToGrid={onClose} />}
+          {tool.demoType === 'string_tokenizer' && <UniversalStringTokenizer onBackToGrid={onClose} />}
+          {tool.demoType === 'image_color_inverter' && <UniversalImageColorInverter onBackToGrid={onClose} />}
+          {tool.demoType === 'empty_line_trimmer' && <UniversalEmptyLineTrimmer onBackToGrid={onClose} />}
+          {tool.demoType === 'json_to_yaml' && <UniversalJsonToYamlConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'text_emoji_repeater' && <UniversalTextEmojiRepeater onBackToGrid={onClose} />}
+          {tool.demoType === 'html_code_minifier' && <UniversalHtmlMinifier onBackToGrid={onClose} />}
+          {tool.demoType === 'duration_days_calculator' && <UniversalDurationDaysCalculator onBackToGrid={onClose} />}
+          {tool.demoType === 'base64_to_text_decoder' && <UniversalBase64ToTextDecoder onBackToGrid={onClose} />}
+          {tool.demoType === 'slug_to_text' && <UniversalSlugToTextConverter onBackToGrid={onClose} />}
+          {tool.demoType === 'text_to_hex_encoder' && <UniversalTextToHexEncoder onBackToGrid={onClose} />}
+          {tool.demoType === 'yaml_to_json_engine' && <UniversalYamlToJsonEngine onBackToGrid={onClose} />}
+          {tool.demoType === 'crypto_password_mixer' && <UniversalCryptoPasswordMixer onBackToGrid={onClose} />}
+          {tool.demoType === 'torrent_bencode_json' && <UniversalTorrentBencodeJsonParser onBackToGrid={onClose} />}
           {(!tool.demoType || tool.demoType === 'default') && <DefaultToolDemo tool={tool} />}
         </div>
 
