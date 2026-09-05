@@ -91,7 +91,7 @@ export const ResearchAnswerModal: React.FC<ResearchAnswerModalProps> = ({
   return (
     <AnimatePresence>
       <div 
-        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto"
+        className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-6 overflow-y-auto overscroll-contain min-h-screen tool-modal-overlay [-webkit-overflow-scrolling:touch] pt-[calc(var(--nav-height,80px)+1.5rem)] md:pt-12 pb-16 sm:pb-12"
         id="research-answer-modal-overlay"
       >
         {/* Backdrop overlay */}
@@ -111,7 +111,7 @@ export const ResearchAnswerModal: React.FC<ResearchAnswerModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-3xl bg-[#0a0a10]/95 border border-[#00f0ff]/40 rounded-3xl shadow-[0_0_60px_rgba(0,240,255,0.2),0_25px_60px_rgba(0,0,0,0.9)] overflow-hidden backdrop-blur-2xl flex flex-col max-h-[90vh] text-white"
+          className="w-full max-w-3xl bg-[#0a0a10]/95 border border-[#00f0ff]/40 rounded-2xl sm:rounded-3xl shadow-[0_0_60px_rgba(0,240,255,0.2),0_25px_60px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col text-white tool-modal-surface my-0 sm:my-8 mb-8"
           id="research-answer-modal-box"
           role="dialog"
           aria-modal="true"

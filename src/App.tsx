@@ -69,6 +69,7 @@ export default function App() {
   // Helper to open a tool with tactile sound feedback
   const handleLaunchTool = (tool: ToolItem) => {
     playSound('toolSelect');
+    window.scrollTo({ top: 0, behavior: 'instant' });
     setActiveTool(tool);
   };
 

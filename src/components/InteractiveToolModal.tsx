@@ -181,24 +181,43 @@ export const InteractiveToolModal: React.FC<InteractiveToolModalProps> = ({
 }) => {
   const modalContainerRef = useRef<HTMLDivElement>(null);
 
+  // Viewport & Scroll Reset: Ensure whenever a tool view opens or mounts, trigger an immediate scroll reset
+  useEffect(() => {
+    if (tool) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      if (document.documentElement) {
+        document.documentElement.scrollTop = 0;
+      }
+      if (document.body) {
+        document.body.scrollTop = 0;
+      }
+      if (modalContainerRef.current) {
+        modalContainerRef.current.scrollTop = 0;
+      }
+    }
+  }, [tool]);
+
   if (!tool) return null;
 
   return (
     <AnimatePresence>
       <motion.div 
+        ref={modalContainerRef}
+        id="interactive-tool-modal-overlay"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.25 }}
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/65 backdrop-blur-md overflow-y-auto"
+        className="fixed inset-0 z-50 flex items-start justify-center p-2.5 sm:p-6 md:p-8 bg-black/75 backdrop-blur-md overflow-y-auto overscroll-contain min-h-screen min-h-[100dvh] tool-modal-overlay [-webkit-overflow-scrolling:touch] pt-[calc(var(--nav-height,80px)+1.5rem)] md:pt-12 pb-16 sm:pb-12"
         onClick={onClose}
       >
           <motion.div 
-            initial={{ opacity: 0, scale: 0.94, y: 24 }}
+            id="interactive-tool-modal-card"
+            initial={{ opacity: 0, scale: 0.96, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 24 }}
+            exit={{ opacity: 0, scale: 0.96, y: 20 }}
             transition={{ type: 'spring', stiffness: 320, damping: 26 }}
-            className="relative w-full max-w-4xl my-8 rounded-3xl border border-slate-300 dark:border-white/15 bg-white/90 dark:bg-[#080816]/95 backdrop-blur-2xl shadow-2xl p-6 sm:p-8 text-slate-900 dark:text-white"
+            className="relative w-full max-w-4xl my-0 sm:my-4 rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-white/15 bg-white/95 dark:bg-[#080816]/95 backdrop-blur-2xl shadow-2xl p-4 sm:p-8 text-slate-900 dark:text-white tool-modal-surface mb-8"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Navigation & Header */}

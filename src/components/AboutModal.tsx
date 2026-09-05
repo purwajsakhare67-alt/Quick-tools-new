@@ -11,11 +11,11 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/60 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-6 bg-black/60 backdrop-blur-md overflow-y-auto overscroll-contain min-h-screen tool-modal-overlay [-webkit-overflow-scrolling:touch] pt-[calc(var(--nav-height,80px)+1.5rem)] md:pt-12 pb-16 sm:pb-12"
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-2xl my-8 rounded-3xl border border-slate-300 dark:border-white/15 bg-white/85 dark:bg-[#080816]/90 backdrop-blur-2xl shadow-2xl p-6 sm:p-8 text-slate-900 dark:text-white"
+        className="relative w-full max-w-2xl my-0 sm:my-8 rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-white/15 bg-white/95 dark:bg-[#080816]/95 backdrop-blur-2xl shadow-2xl p-4 sm:p-8 text-slate-900 dark:text-white tool-modal-surface mb-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-start justify-between border-b border-slate-200/80 dark:border-white/10 pb-5 mb-5">

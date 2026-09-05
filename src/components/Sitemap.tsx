@@ -78,11 +78,11 @@ export const Sitemap: React.FC<SitemapProps> = ({ isOpen, onClose, onSelectTool 
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-6 bg-black/70 backdrop-blur-md overflow-y-auto overscroll-contain min-h-screen tool-modal-overlay [-webkit-overflow-scrolling:touch] pt-[calc(var(--nav-height,80px)+1.5rem)] md:pt-12 pb-16 sm:pb-12"
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-4xl max-h-[90vh] my-auto rounded-3xl border border-slate-300 dark:border-white/15 bg-white/95 dark:bg-[#070714]/95 backdrop-blur-2xl shadow-2xl p-5 sm:p-8 text-slate-900 dark:text-white flex flex-col overflow-hidden"
+        className="relative w-full max-w-4xl my-0 sm:my-8 rounded-2xl sm:rounded-3xl border border-slate-300 dark:border-white/15 bg-white/95 dark:bg-[#070714]/95 backdrop-blur-2xl shadow-2xl p-4 sm:p-8 text-slate-900 dark:text-white flex flex-col tool-modal-surface mb-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
